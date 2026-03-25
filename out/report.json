@@ -1,0 +1,175 @@
+{
+  "tool": "pq-surface-audit",
+  "version": "0.1.0",
+  "generated_at": "2026-03-25T18:00:00+00:00",
+  "summary": {
+    "assets_scanned": 2,
+    "high_priority": 1,
+    "medium_priority": 1,
+    "low_priority": 0
+  },
+  "assets": [
+    {
+      "target": "https://payments.example.internal",
+      "hostname": "payments.example.internal",
+      "port": 443,
+      "observations": [
+        {
+          "service": "https",
+          "status": "open",
+          "details": {
+            "tls_version": "TLSv1.2",
+            "cert_public_key_algorithm": "rsa",
+            "cert_public_key_size": 2048,
+            "cert_signature_algorithm": "sha256WithRSAEncryption"
+          }
+        },
+        {
+          "service": "http-headers",
+          "status": "open",
+          "details": {
+            "status_code": 200,
+            "hsts": null,
+            "csp": null
+          }
+        },
+        {
+          "service": "ssh",
+          "status": "open",
+          "details": {
+            "banner": "SSH-2.0-OpenSSH_8.9"
+          }
+        }
+      ],
+      "findings": [
+        {
+          "severity": "medium",
+          "category": "pq-readiness",
+          "title": "Classical public-key certificate in use",
+          "description": "Endpoint uses a classical certificate and should be tracked for PQ migration planning.",
+          "evidence": {
+            "algorithm": "rsa"
+          },
+          "recommendation": "Add to crypto inventory and monitor PQ/hybrid support."
+        },
+        {
+          "severity": "low",
+          "category": "http",
+          "title": "HSTS header missing",
+          "description": "HTTPS response did not include HSTS.",
+          "evidence": {},
+          "recommendation": "Consider enabling HSTS."
+        },
+        {
+          "severity": "low",
+          "category": "http",
+          "title": "CSP header missing",
+          "description": "HTTPS response did not include CSP.",
+          "evidence": {},
+          "recommendation": "Consider deploying CSP."
+        },
+        {
+          "severity": "info",
+          "category": "surface",
+          "title": "SSH exposed externally",
+          "description": "SSH service appears reachable.",
+          "evidence": {
+            "port": 22
+          },
+          "recommendation": "Validate exposure and restrict access where possible."
+        },
+        {
+          "severity": "medium",
+          "category": "pq-readiness",
+          "title": "Classical SSH host key observed",
+          "description": "Classical SSH host key will need migration planning.",
+          "evidence": {
+            "host_key_type": "ssh-ed25519"
+          },
+          "recommendation": "Track SSH dependencies for future PQ support."
+        }
+      ],
+      "score": 71,
+      "priority": "medium",
+      "notes": [
+        "Multiple internet-facing services observed."
+      ]
+    },
+    {
+      "target": "legacy.example.internal",
+      "hostname": "legacy.example.internal",
+      "port": 443,
+      "observations": [
+        {
+          "service": "https",
+          "status": "open",
+          "details": {
+            "tls_version": "TLSv1.1",
+            "cert_public_key_algorithm": "rsa",
+            "cert_public_key_size": 2048,
+            "cert_signature_algorithm": "sha1WithRSAEncryption"
+          }
+        },
+        {
+          "service": "http-headers",
+          "status": "open",
+          "details": {
+            "status_code": 200,
+            "hsts": null,
+            "csp": null
+          }
+        },
+        {
+          "service": "ssh",
+          "status": "closed",
+          "details": {
+            "error": "timed out"
+          }
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "tls",
+          "title": "Legacy TLS version negotiated",
+          "description": "The endpoint negotiated an outdated TLS version.",
+          "evidence": {
+            "tls_version": "TLSv1.1"
+          },
+          "recommendation": "Disable legacy protocols."
+        },
+        {
+          "severity": "medium",
+          "category": "pq-readiness",
+          "title": "Classical public-key certificate in use",
+          "description": "Endpoint uses a classical certificate and should be tracked for PQ migration planning.",
+          "evidence": {
+            "algorithm": "rsa"
+          },
+          "recommendation": "Add to crypto inventory and monitor PQ/hybrid support."
+        },
+        {
+          "severity": "medium",
+          "category": "certificate",
+          "title": "Certificate near expiry",
+          "description": "Certificate expires within 30 days.",
+          "evidence": {
+            "not_after": "2026-04-02T00:00:00+00:00"
+          },
+          "recommendation": "Renew the certificate."
+        },
+        {
+          "severity": "low",
+          "category": "http",
+          "title": "HSTS header missing",
+          "description": "HTTPS response did not include HSTS.",
+          "evidence": {},
+          "recommendation": "Consider enabling HSTS."
+        }
+      ],
+      "score": 51,
+      "priority": "high",
+      "notes": []
+    }
+  ]
+}

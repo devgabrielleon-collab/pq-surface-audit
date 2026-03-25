@@ -1,0 +1,179 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PQ Surface Audit Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #1f2937; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 18px; }
+    .high { color: #b91c1c; font-weight: bold; }
+    .medium { color: #b45309; font-weight: bold; }
+    .low { color: #15803d; font-weight: bold; }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { text-align: left; border-bottom: 1px solid #e5e7eb; padding: 8px; vertical-align: top; }
+    .muted { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <h1>PQ Surface Audit Report</h1>
+  <p class="muted">Generated at 2026-03-25T18:00:00+00:00</p>
+  <p><strong>Assets scanned:</strong> 2 | <strong>High:</strong> 1 | <strong>Medium:</strong> 1 | <strong>Low:</strong> 0</p>
+
+  
+  <div class="card">
+    <h2>https://payments.example.internal</h2>
+    <p><strong>Hostname:</strong> payments.example.internal | <strong>Port:</strong> 443</p>
+    <p><strong>Score:</strong> 71 | <strong>Priority:</strong> <span class="medium">MEDIUM</span></p>
+
+    <h3>Observations</h3>
+    <table>
+      <tr><th>Service</th><th>Status</th><th>Details</th></tr>
+      
+      <tr>
+        <td>https</td>
+        <td>open</td>
+        <td><code>{'tls_version': 'TLSv1.2', 'cert_public_key_algorithm': 'rsa', 'cert_public_key_size': 2048, 'cert_signature_algorithm': 'sha256WithRSAEncryption'}</code></td>
+      </tr>
+      
+      <tr>
+        <td>http-headers</td>
+        <td>open</td>
+        <td><code>{'status_code': 200, 'hsts': None, 'csp': None}</code></td>
+      </tr>
+      
+      <tr>
+        <td>ssh</td>
+        <td>open</td>
+        <td><code>{'banner': 'SSH-2.0-OpenSSH_8.9'}</code></td>
+      </tr>
+      
+    </table>
+
+    <h3>Findings</h3>
+    <table>
+      <tr><th>Severity</th><th>Category</th><th>Title</th><th>Description</th><th>Recommendation</th></tr>
+      
+      <tr>
+        <td class="medium">medium</td>
+        <td>pq-readiness</td>
+        <td>Classical public-key certificate in use</td>
+        <td>Endpoint uses a classical certificate and should be tracked for PQ migration planning.</td>
+        <td>Add to crypto inventory and monitor PQ/hybrid support.</td>
+      </tr>
+      
+      <tr>
+        <td class="low">low</td>
+        <td>http</td>
+        <td>HSTS header missing</td>
+        <td>HTTPS response did not include HSTS.</td>
+        <td>Consider enabling HSTS.</td>
+      </tr>
+      
+      <tr>
+        <td class="low">low</td>
+        <td>http</td>
+        <td>CSP header missing</td>
+        <td>HTTPS response did not include CSP.</td>
+        <td>Consider deploying CSP.</td>
+      </tr>
+      
+      <tr>
+        <td class="info">info</td>
+        <td>surface</td>
+        <td>SSH exposed externally</td>
+        <td>SSH service appears reachable.</td>
+        <td>Validate exposure and restrict access where possible.</td>
+      </tr>
+      
+      <tr>
+        <td class="medium">medium</td>
+        <td>pq-readiness</td>
+        <td>Classical SSH host key observed</td>
+        <td>Classical SSH host key will need migration planning.</td>
+        <td>Track SSH dependencies for future PQ support.</td>
+      </tr>
+      
+    </table>
+
+    
+    <h3>Notes</h3>
+    <ul>
+      <li>Multiple internet-facing services observed.</li>
+    </ul>
+    
+  </div>
+  
+  <div class="card">
+    <h2>legacy.example.internal</h2>
+    <p><strong>Hostname:</strong> legacy.example.internal | <strong>Port:</strong> 443</p>
+    <p><strong>Score:</strong> 51 | <strong>Priority:</strong> <span class="high">HIGH</span></p>
+
+    <h3>Observations</h3>
+    <table>
+      <tr><th>Service</th><th>Status</th><th>Details</th></tr>
+      
+      <tr>
+        <td>https</td>
+        <td>open</td>
+        <td><code>{'tls_version': 'TLSv1.1', 'cert_public_key_algorithm': 'rsa', 'cert_public_key_size': 2048, 'cert_signature_algorithm': 'sha1WithRSAEncryption'}</code></td>
+      </tr>
+      
+      <tr>
+        <td>http-headers</td>
+        <td>open</td>
+        <td><code>{'status_code': 200, 'hsts': None, 'csp': None}</code></td>
+      </tr>
+      
+      <tr>
+        <td>ssh</td>
+        <td>closed</td>
+        <td><code>{'error': 'timed out'}</code></td>
+      </tr>
+      
+    </table>
+
+    <h3>Findings</h3>
+    <table>
+      <tr><th>Severity</th><th>Category</th><th>Title</th><th>Description</th><th>Recommendation</th></tr>
+      
+      <tr>
+        <td class="high">high</td>
+        <td>tls</td>
+        <td>Legacy TLS version negotiated</td>
+        <td>The endpoint negotiated an outdated TLS version.</td>
+        <td>Disable legacy protocols.</td>
+      </tr>
+      
+      <tr>
+        <td class="medium">medium</td>
+        <td>pq-readiness</td>
+        <td>Classical public-key certificate in use</td>
+        <td>Endpoint uses a classical certificate and should be tracked for PQ migration planning.</td>
+        <td>Add to crypto inventory and monitor PQ/hybrid support.</td>
+      </tr>
+      
+      <tr>
+        <td class="medium">medium</td>
+        <td>certificate</td>
+        <td>Certificate near expiry</td>
+        <td>Certificate expires within 30 days.</td>
+        <td>Renew the certificate.</td>
+      </tr>
+      
+      <tr>
+        <td class="low">low</td>
+        <td>http</td>
+        <td>HSTS header missing</td>
+        <td>HTTPS response did not include HSTS.</td>
+        <td>Consider enabling HSTS.</td>
+      </tr>
+      
+    </table>
+
+    
+  </div>
+  
+</body>
+</html>
